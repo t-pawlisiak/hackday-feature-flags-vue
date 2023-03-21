@@ -1,0 +1,10 @@
+{
+    "flagValues": {
+        "boolean_flag": false,
+        "string_flag": "Variant 1",
+        "nuber_flag": 1,
+        "json_flag": {
+            "value": "Variant 1"
+        }
+    }
+}
