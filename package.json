@@ -15,6 +15,7 @@
     "configcat-js": "^7.0.0",
     "pinia": "^2.0.32",
     "sass": "^1.58.3",
+    "statsig-js": "^4.33.1",
     "vue": "^3.2.47"
   },
   "devDependencies": {

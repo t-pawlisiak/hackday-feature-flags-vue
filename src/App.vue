@@ -1,5 +1,7 @@
 <template>
-  <header>Feature flags Proof of Concept</header>
+  <header>
+    <h1>Feature flags Proof of Concept</h1>
+  </header>
 
   <main>
     <StoreFlags />

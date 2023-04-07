@@ -1,6 +1,8 @@
 import * as configcat from 'configcat-js'
 import * as LDClient from 'launchdarkly-js-client-sdk'
 import Optimizely from '@optimizely/optimizely-sdk'
+import Statsig from 'statsig-js'
+import type { DynamicConfig, StatsigUser } from 'statsig-js'
 
 import type { Client } from '@optimizely/optimizely-sdk'
 import { defineStore } from 'pinia'
@@ -15,7 +17,8 @@ export const useFeatureFlagsStore = defineStore('featureFlagsStore', {
   state: (): State => ({
     configCat: [],
     launchDarkly: [],
-    optimizely: []
+    optimizely: [],
+    statsig: []
   }),
 
   actions: {
@@ -126,6 +129,43 @@ export const useFeatureFlagsStore = defineStore('featureFlagsStore', {
           }
         }
       })
+    },
+
+    async fetchStatsigFlags() {
+      const userObj: StatsigUser = {
+        userID: user.id,
+        custom: {
+          name: user.name
+        }
+      }
+
+      await Statsig.initialize(
+        import.meta.env.VITE_STATSIG_SDK_KEY,
+        userObj,
+        { environment: { tier: 'testing' } }
+      )
+
+      const config: DynamicConfig = Statsig.getConfig('dynamic_config');
+
+      // Local overrides
+      Statsig.overrideGate('boolean_gate', true)
+
+      Statsig.overrideConfig('dynamic_config', {
+        ...config.value,
+        number: 27
+      })
+
+      this.statsig = {
+        boolean_gate: Statsig.checkGate('boolean_gate'),
+        'dynamic_config/boolean': config.get('boolean', false),
+        'dynamic_config/number': config.get('number', 0),
+        'dynamic_config/string': config.get('string', ''),
+        'dynamic_config/JSON': config.get('JSON', {})
+      }
+
+      // Remove local overrides
+      // Statsig.removeGateOverride('boolean_gate')
+      // Statsig.removeConfigOverride('dynamic_config')
     }
   }
 })

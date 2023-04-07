@@ -9,4 +9,5 @@ export interface State {
             variationKey?: string | number | boolean;
         }
     }
+    statsig: FeatureFlags | []
 }

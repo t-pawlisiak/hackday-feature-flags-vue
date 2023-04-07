@@ -31,6 +31,7 @@ $columns: 2;
 .table {
   display: grid;
   grid-template-columns: auto repeat(($columns - 1), 1fr);
+  margin-bottom: 3rem;
 
   > * {
     padding: 0.75em;

@@ -14,6 +14,7 @@ const featureFlagsStore = useFeatureFlagsStore()
 featureFlagsStore.fetchConfigCatFlags()
 featureFlagsStore.fetchLaunchDarklyFlags()
 featureFlagsStore.fetchOptimizelyFlags()
+featureFlagsStore.fetchStatsigFlags()
 
 const featureFlags = ref<
   {
